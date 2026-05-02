@@ -1,16 +1,78 @@
-# React + Vite
+# MovieVerse
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+MovieVerse is a modern movie and TV discovery web app built with React.  
+It includes trending content, genre browsing, detailed pages, search, and a personal watchlist.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Explore trending **Movies** and **TV Shows**
+- Browse content by **genre**
+- View rich **detail pages** (rating, cast, similar titles, trailer support)
+- Fast **search** with filtering/sorting
+- Personal **watchlist** with watched/unwatched tracking
+- Responsive UI optimized for desktop and mobile
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React + Vite
+- Redux Toolkit
+- React Router
+- TMDB API (The Movie Database)
+- Tailwind CSS + custom styles
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 1) Clone the repo
+
+```bash
+git clone https://github.com/yugggfr/Movieverse.git
+cd Movieverse
+```
+
+### 2) Install dependencies
+
+```bash
+npm install
+```
+
+### 3) Setup environment variables
+
+Create a `.env` file in the project root:
+
+```env
+VITE_TMDB_API_KEY=your_tmdb_api_key_here
+```
+
+> `.env` is ignored by git for safety.
+
+### 4) Start development server
+
+```bash
+npm run dev
+```
+
+Open the local URL shown in terminal (usually `http://localhost:5173`).
+
+## Available Scripts
+
+- `npm run dev` - start local development server
+- `npm run build` - create production build
+- `npm run preview` - preview production build locally
+- `npm run lint` - run ESLint
+
+## Project Structure
+
+```text
+src/
+  api/            # TMDB API helpers
+  app/            # Redux store setup
+  components/     # shared UI components (Navbar, MovieCard, etc.)
+  features/       # Redux slices (theme, watchlist)
+  hooks/          # custom hooks
+  pages/          # route pages (Home, Movies, TVShows, Search, Detail, Watchlist)
+```
+
+## Notes
+
+- This project uses TMDB data but is not endorsed or certified by TMDB.
+- If poster/backdrop images fail, fallback placeholders are used where applicable.
