@@ -4,6 +4,7 @@ import { searchMovies } from "../api/tmdb";
 import { MovieCard } from "../components/common/MovieCard";
 import { Spinner } from "../components/common/Spinner";
 import { useDebounce } from "../hooks/useDebounce";
+import searchImg from "../../search.jpg";
 
 const SORT_OPTIONS = [
   { label: "Relevance", value: "relevance" },
@@ -54,13 +55,13 @@ export default function Search() {
     });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-black text-white mb-6">
-        Search <span className="text-amber-400">MovieVerse</span>
+    <div style={{ maxWidth: 1280, margin: "0 auto", padding: "60px 24px" }}>
+      <h1 style={{ fontFamily: "var(--font-display)", fontSize: 32, color: "var(--text)", marginBottom: 22 }}>
+        Search <span style={{ color: "var(--gold)" }}>MovieVerse</span>
       </h1>
 
       {/* Search input */}
-      <div className="relative mb-6">
+      <div style={{ position: "relative", marginBottom: 22, maxWidth: 700 }}>
         <input
           value={query}
           onChange={(e) => {
@@ -68,23 +69,54 @@ export default function Search() {
             setPage(1);
           }}
           placeholder="Search for a movie..."
-          className="w-full bg-gray-800 text-white px-5 py-4 pl-12 rounded-2xl border border-gray-700 focus:outline-none focus:border-amber-500 text-lg transition"
+          style={{
+            width: "100%",
+            background: "var(--bg2)",
+            color: "var(--text)",
+            padding: "clamp(10px, 2.4vw, 12px) 16px clamp(10px, 2.4vw, 12px) clamp(36px, 10vw, 42px)",
+            borderRadius: 14,
+            border: "1px solid var(--border)",
+            fontSize: "clamp(14px, 3.6vw, 15px)",
+            outline: "none",
+            transition: "border-color 0.2s",
+            fontFamily: "var(--font-body)",
+          }}
           autoFocus
         />
-        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl">
-          🔍
-        </span>
+        <img
+          src={searchImg}
+          alt="Search"
+          style={{
+            position: "absolute",
+            left: "clamp(10px, 3vw, 14px)",
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: "clamp(14px, 4.5vw, 18px)",
+            height: "clamp(14px, 4.5vw, 18px)",
+            objectFit: "contain",
+            borderRadius: 4,
+          }}
+        />
       </div>
 
       {/* Filters */}
       {results.length > 0 && (
-        <div className="flex flex-wrap gap-4 mb-6 items-center">
-          <div className="flex items-center gap-2">
-            <label className="text-gray-400 text-sm">Sort by:</label>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 22, alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <label style={{ color: "var(--text-muted)", fontSize: 13 }}>Sort by:</label>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="bg-gray-800 text-white text-sm px-3 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-amber-500"
+              style={{
+                background: "var(--bg2)",
+                color: "var(--text)",
+                fontSize: 13,
+                padding: "8px 10px",
+                borderRadius: 8,
+                border: "1px solid var(--border)",
+                outline: "none",
+                fontFamily: "var(--font-body)",
+              }}
             >
               {SORT_OPTIONS.map((o) => (
                 <option key={o.value} value={o.value}>
@@ -93,9 +125,9 @@ export default function Search() {
               ))}
             </select>
           </div>
-          <div className="flex items-center gap-2">
-            <label className="text-gray-400 text-sm">
-              Min Rating: <span className="text-amber-400">{minRating}+</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <label style={{ color: "var(--text-muted)", fontSize: 13 }}>
+              Min Rating: <span style={{ color: "var(--gold)" }}>{minRating}+</span>
             </label>
             <input
               type="range"
@@ -104,10 +136,10 @@ export default function Search() {
               step={0.5}
               value={minRating}
               onChange={(e) => setMinRating(Number(e.target.value))}
-              className="accent-amber-500"
+              style={{ accentColor: "var(--gold)" }}
             />
           </div>
-          <span className="text-gray-500 text-sm ml-auto">
+          <span style={{ color: "var(--text-dim)", fontSize: 13, marginLeft: "auto" }}>
             {sorted.length} result{sorted.length !== 1 ? "s" : ""}
           </span>
         </div>
@@ -116,8 +148,8 @@ export default function Search() {
       {loading && <Spinner />}
 
       {!loading && debounced && sorted.length === 0 && (
-        <div className="text-center py-20 text-gray-500">
-          <div className="text-5xl mb-4">🎭</div>
+        <div style={{ textAlign: "center", padding: "80px 0", color: "var(--text-muted)" }}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>🎭</div>
           <p>No results found for "{debounced}"</p>
         </div>
       )}
@@ -130,21 +162,37 @@ export default function Search() {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center gap-4 mt-8">
+        <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 28, flexWrap: "wrap" }}>
           <button
             disabled={page === 1}
             onClick={() => setPage((p) => p - 1)}
-            className="px-5 py-2 bg-gray-800 text-white rounded-full disabled:opacity-30 hover:bg-gray-700 transition"
+            style={{
+              padding: "8px 16px",
+              background: "var(--bg2)",
+              color: "var(--text)",
+              borderRadius: 999,
+              border: "1px solid var(--border)",
+              cursor: page === 1 ? "not-allowed" : "pointer",
+              opacity: page === 1 ? 0.35 : 1,
+            }}
           >
             ← Prev
           </button>
-          <span className="text-gray-400 flex items-center text-sm">
+          <span style={{ color: "var(--text-muted)", display: "flex", alignItems: "center", fontSize: 13 }}>
             Page {page} of {Math.min(totalPages, 500)}
           </span>
           <button
             disabled={page >= totalPages}
             onClick={() => setPage((p) => p + 1)}
-            className="px-5 py-2 bg-gray-800 text-white rounded-full disabled:opacity-30 hover:bg-gray-700 transition"
+            style={{
+              padding: "8px 16px",
+              background: "var(--bg2)",
+              color: "var(--text)",
+              borderRadius: 999,
+              border: "1px solid var(--border)",
+              cursor: page >= totalPages ? "not-allowed" : "pointer",
+              opacity: page >= totalPages ? 0.35 : 1,
+            }}
           >
             Next →
           </button>
