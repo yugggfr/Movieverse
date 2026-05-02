@@ -122,7 +122,7 @@ export default function Search() {
         </div>
       )}
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(130px, 100%), 1fr))", gap: 16 }}>
         {sorted.map((m) => (
           <MovieCard key={m.id} movie={m} type="movie" />
         ))}

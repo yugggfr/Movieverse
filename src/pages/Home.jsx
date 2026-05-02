@@ -27,7 +27,7 @@ function Section({ title, accent, items, type, to }) {
       </div>
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
+        gridTemplateColumns: "repeat(auto-fill, minmax(min(130px, 100%), 1fr))",
         gap: 16,
       }}>
         {items.slice(0, 10).map((m, i) => (
@@ -50,6 +50,7 @@ export default function Home() {
   const [hero, setHero] = useState(null);
   const [heroIdx, setHeroIdx] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
 
   useEffect(() => {
     Promise.all([getTrending(), getTrendingTV(), getGenres()])
@@ -79,26 +80,35 @@ export default function Home() {
     getMoviesByGenre(selectedGenre).then(r => setGenreMovies(r.data.results));
   }, [selectedGenre]);
 
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   if (loading) return <Spinner size="lg" />;
 
   return (
     <div>
       {/* HERO */}
       {hero && (
-        <div style={{ position: "relative", height: "75vh", overflow: "hidden" }}>
+        <div style={{ position: "relative", height: isMobile ? "56vh" : "75vh", minHeight: isMobile ? 420 : 560, overflow: "hidden" }}>
           <img
             key={hero.id}
             src={img(hero.backdrop_path, "original")}
             alt={hero.title}
             style={{
               width: "100%", height: "100%", objectFit: "cover",
+              objectPosition: isMobile ? "center 30%" : "center",
               animation: "heroFade 0.8s ease",
             }}
           />
           {/* Gradients */}
           <div style={{
             position: "absolute", inset: 0,
-            background: "linear-gradient(to right, rgba(10,10,12,0.95) 30%, rgba(10,10,12,0.2) 70%, transparent 100%)",
+            background: isMobile
+              ? "linear-gradient(to top, rgba(10,10,12,0.95) 16%, rgba(10,10,12,0.58) 46%, rgba(10,10,12,0.12) 100%)"
+              : "linear-gradient(to right, rgba(10,10,12,0.95) 30%, rgba(10,10,12,0.2) 70%, transparent 100%)",
           }} />
           <div style={{
             position: "absolute", inset: 0,
@@ -108,8 +118,8 @@ export default function Home() {
           {/* Content */}
           <div style={{
             position: "absolute", bottom: 0, left: 0, right: 0,
-            padding: "0 48px 56px",
-            maxWidth: 640,
+            padding: isMobile ? "0 16px 22px" : "0 48px 56px",
+            maxWidth: isMobile ? "100%" : 640,
           }}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 6,
@@ -126,11 +136,11 @@ export default function Home() {
 
             <h1 style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(42px, 6vw, 72px)",
+              fontSize: isMobile ? "clamp(44px, 12vw, 64px)" : "clamp(42px, 6vw, 72px)",
               letterSpacing: "0.03em",
               color: "var(--text)",
               lineHeight: 1,
-              marginBottom: 16,
+              marginBottom: isMobile ? 12 : 16,
               animation: "heroFade 0.6s ease",
             }}>
               {hero.title || hero.name}
@@ -138,24 +148,24 @@ export default function Home() {
 
             <p style={{
               color: "var(--text-muted)",
-              fontSize: 15,
-              lineHeight: 1.6,
-              marginBottom: 28,
+              fontSize: isMobile ? 14 : 15,
+              lineHeight: 1.55,
+              marginBottom: isMobile ? 18 : 28,
               display: "-webkit-box",
-              WebkitLineClamp: 2,
+              WebkitLineClamp: isMobile ? 3 : 2,
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
             }}>
               {hero.overview}
             </p>
 
-            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: isMobile ? "wrap" : "nowrap" }}>
               <Link to={`/movie/${hero.id}`} style={{
                 textDecoration: "none",
                 background: "var(--gold)",
                 color: "#000",
-                fontWeight: 700, fontSize: 14,
-                padding: "12px 28px",
+                fontWeight: 700, fontSize: isMobile ? 13 : 14,
+                padding: isMobile ? "10px 20px" : "12px 28px",
                 borderRadius: 8,
                 letterSpacing: "0.02em",
                 transition: "opacity 0.15s",
@@ -170,8 +180,8 @@ export default function Home() {
                 backdropFilter: "blur(8px)",
                 border: "1px solid var(--border)",
                 borderRadius: 8,
-                padding: "12px 20px",
-                fontSize: 14, fontWeight: 600,
+                padding: isMobile ? "10px 14px" : "12px 20px",
+                fontSize: isMobile ? 13 : 14, fontWeight: 600,
                 color: "var(--gold)",
               }}>
                 ★ {hero.vote_average?.toFixed(1)}
@@ -181,7 +191,7 @@ export default function Home() {
 
           {/* Hero dots */}
           <div style={{
-            position: "absolute", bottom: 32, right: 48,
+            position: "absolute", bottom: isMobile ? 12 : 32, right: isMobile ? 16 : 48,
             display: "flex", gap: 6,
           }}>
             {trending.slice(0, 5).map((_, i) => (
@@ -236,7 +246,7 @@ export default function Home() {
           {selectedGenre && genreMovies.length > 0 && (
             <div style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fill, minmax(min(130px, 100%), 1fr))",
               gap: 16,
             }}>
               {genreMovies.slice(0, 10).map(m => <MovieCard key={m.id} movie={m} type="movie" />)}

@@ -215,7 +215,7 @@ export default function Detail() {
             <h2 style={{ fontFamily: "var(--font-display)", fontSize: isMobile ? 24 : 28, letterSpacing: "0.04em", color: "var(--text)", marginBottom: 20 }}>
               You Might <span style={{ color: "var(--gold)" }}>Also Like</span>
             </h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 16 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(130px, 100%), 1fr))", gap: 16 }}>
               {similar.map(m => <MovieCard key={m.id} movie={m} type={type} />)}
             </div>
           </div>

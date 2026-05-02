@@ -40,7 +40,7 @@ export default function Movies() {
       <h1 style={{ fontFamily: "var(--font-display)", fontSize: 32, color: "var(--text)", marginBottom: 32 }}>
         Popular <span style={{ color: "var(--gold)" }}>Movies</span>
       </h1>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(130px, 100%), 1fr))", gap: 16 }}>
         {movies.map((m) => (
           <MovieCard key={`${m.id}-${m.page}`} movie={m} type="movie" />
         ))}

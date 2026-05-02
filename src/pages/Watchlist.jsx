@@ -44,7 +44,7 @@ export default function Watchlist() {
   }
 
   const WatchlistGrid = ({ items }) => (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 16 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(130px, 100%), 1fr))", gap: 16 }}>
       {items.map((item) => (
         <div key={item.id}>
           <div style={{ opacity: item.watched ? 0.72 : 1 }}>
