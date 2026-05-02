@@ -2,6 +2,8 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectWatchlist } from "../../features/watchlist/watchlistSlice";
 import { useState } from "react";
+import logoImg from "../../../logo.jpg";
+import searchImg from "../../../search.jpg";
 
 export function Navbar() {
   const watchlist = useSelector(selectWatchlist);
@@ -33,7 +35,7 @@ export function Navbar() {
         {/* Logo */}
         <Link className="mv-nav-logo" to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
           <img
-            src="/logo.jpg"
+            src={logoImg}
             alt="Movieverse logo"
             style={{
               width: 34,
@@ -96,7 +98,7 @@ export function Navbar() {
             }}
           >
             <img
-              src="/search.jpg"
+              src={searchImg}
               alt="Search"
               style={{
                 width: 30,
